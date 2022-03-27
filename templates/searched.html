@@ -1,0 +1,30 @@
+{% extends "parent.html" %}
+{% block header %}
+{% endblock %}
+{% block title %}Searched{% endblock %}
+{% block content %}
+    <!-- IDK HOW TO CENTER ANYTHING OR DO ANYTHING FRONT END FOR SOME REASON -->
+    <!-- user['user_id', 'username', 'first_name', 'last_name', 'full_name'] -->
+    <!-- PLEASE CENTER AND PUT USERS IN A RECTANGLE JUST LIKE IG PRADGE -->
+    <!-- use for redirection to x user profile ->        url_for('profile', 'id=users['user_id']') -->
+
+<div class="search-area">
+    <div class = "pure-g">
+    {% for user in users %}
+        <div class="pure-u-1-1">
+            <a href="{{ url_for('profile', id=user['user_id']) }}" style="text-decoration: none; color: black;">
+                <div class="search-container">
+                    {% if user['filename'] == "Anonymous" %}
+                        <img class="profile-pic" src="../static/images/guest.png">
+                    {% else %}
+                        <img class="profile-pic" src="{{ url_for('view_pp', user_id=user['user_id']) }}">
+                    {% endif %}
+                    <span>{{ user['full_name'] }}</span>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+    
+{% endblock %}

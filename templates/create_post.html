@@ -1,0 +1,95 @@
+{% extends "parent.html" %}
+{% block header %}
+{% endblock %}
+{% block title %} Create Post {% endblock %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type = "text/javascript">
+    $(document).ready(function() {
+        var max      = 10; //maximum input boxes allowed
+        var container         = $(".exercises_wrap");
+        var exercise      = $(".add_exercise"); //Plus sign id
+        var time_exercise = $(".time_exercise");
+
+        var x = 0; //input field count intially
+        $(exercise).click(function(e){         e.preventDefault();
+            if(x < max){ //maximum number of input field allowed
+                x++; //input field increment
+                $(container).append('<div class = "pure-u-1"><input style="width: 16em;" type="text" name="text[]" placeholder = "Enter in exercise" required/> <input style="width: 12em;" type="number" name="text[]" placeholder = "Enter in # of sets" required/> <input style="width: 10em;" type="number" name="text[]" placeholder = "Enter in # of reps" required/> <a style="position:relative;" href="#" class="delete_time_exercise"><i class="fa fa-remove delete-exercise-icon" style="font-size:1.5em;"></i></a>'); //adding new input field
+            }
+        });
+        $(time_exercise).click(function(e){         e.preventDefault();
+            if(x < max){ //maximum number of input field allowed
+                x++; //input field increment
+                $(container).append('<div class = "pure-u-1"><input style="width: 16em;" type="text" name="text[]" placeholder = "Add timed exercise" required/> <input style="width: 12em;" type="number" name="text[]" placeholder = "Enter in time spent" required/> <select style="width: 10em;" name="text[]" id="time" required><option value="seconds">Seconds</option><option value="Minutes">Minutes</option><option value="hours">Hours</option></select> <a style="position:relative;" href="#" class="delete_time_exercise"><i class="fa fa-remove delete-exercise-icon" style="font-size:1.5em;"></i></a>'); //adding new input field
+            }
+        });
+
+        $(container).on("click",".delete_exercise", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div').remove(); x--;
+        })
+        $(container).on("click",".delete_time_exercise", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div').remove(); x--;
+        })
+    });
+
+    var loadFile = function(event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+        var divboi = document.getElementById('change-pp');
+        // divboi.style.display = "none";
+        // var input_image = document.getElementById('input_img').style.display = "none";
+    };
+
+    </script>
+    <body>
+        <div id="create_body">
+            <h1 class = "pure-menu-heading threedtext" style = "color:black">Create your Gymstagram post!</h1>
+            <form class="pure-form pure-form-aligned" method="post" enctype="multipart/form-data" action="{{url_for("upload_post")}}" id = "post_form">
+              <fieldset>
+                <div class="img-upload" id="change-pp">
+                    <label for="input_img" class="upload_button">
+                        <!-- <p style="color: red;" style="font-size: 8em;">Click on the image to change the picture to post. This is a required field.</p> -->
+                        <p>
+                            <img id="output" style="width: 20em; height: 20em; border-radius: 2em; cursor: pointer;" src="../static/images/upload_post.jpg"/>
+                        </p>
+                    </label>
+                </div>
+                <!-- <img id="output" class="profile-img" src="../static/images/plus.svg.png"/> -->
+                <input type="file" id="input_img" style="visibility: hidden;" name="image" onchange="loadFile(event)" style="display: inline;" accept="image/jpeg,image/png,image/gif" required/>
+                <br><br>
+                  <textarea name = "text" rows = "5" cols = "50" placeholder="Write a caption..." required></textarea>
+                  <br><br>
+
+                  <div class = "exercises_wrap">
+                    <div class = "pure-u-1">
+                        <input style="width: 16em;" type="text" name="text[]" placeholder = "Enter in exercise" required/> 
+                        <input style="width: 12em;" type="number" name="text[]" placeholder = "Enter in # of sets" required/> 
+                        <input style="width: 10em;" type="number" name="text[]" placeholder = "Enter in # of reps" required/> 
+                        <a style="position:relative;" href="#" class="delete_time_exercise">
+                            <i class="fa fa-remove delete-exercise-icon" style="font-size:1.5em;"></i>
+                        </a>
+                    </div>
+                    <div class = "pure-u-1">
+                        <input style="width: 16em;" type="text" name="text[]" placeholder = "Add timed exercise" required/> 
+                        <input style="width: 12em;" type="number" name="text[]" placeholder = "Enter in time spent" required/>
+                        <select style="width: 10em;" name="text[]" id="time">
+                            <option value="seconds">Seconds</option>
+                            <option value="Minutes">Minutes</option>
+                            <option value="hours">Hours</option>
+                        </select>
+                        <a style="position:relative;" href="#" class="delete_time_exercise">
+                            <i class="fa fa-remove delete-exercise-icon" style="font-size:1.5em;"></i>
+                        </a>
+                    </div>
+                  </div>
+                <div> 
+                    <button class="add_exercise pure-button">Add Sets/Reps Exercise</button>
+                    <button class="time_exercise pure-button">Add Timed Exercise</button>
+                </div>
+                  <button id="add_post" onclick="disable()" type="submit" class="button-blue pure-button pure-button-primary">Create Post</button>
+              </fieldset>
+            </form>
+        </div>
+      </body>
+{% endblock %}
